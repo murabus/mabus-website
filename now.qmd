@@ -1,0 +1,32 @@
+---
+title: "Now"
+description: "What I'm focused on at this point in my life."
+date: last-modified
+date-format: "MMMM YYYY"
+---
+
+::: {.content-container}
+
+This is a [now page](https://nownownow.com/about).
+
+*Updated {{< meta date >}}.*
+
+## At work
+
+I recently earned my PhD in Political Science at the [Maxwell School of Citizenship and Public Affairs](https://www.maxwell.syr.edu/academics/political-science-department) at Syracuse University and I will be a Post-Doctoral Fellow position at the department of [Government, Law & Policy](https://www.astate.edu/college/liberal-arts-and-communication/departments/government-law-and-policy/) at Arkansas State University in Fall 2026. 
+
+## Research
+
+As a new PhD holder, I am busy working to realizing my research agenda I started building during my graduate study. During this early period in my work, I want to focus on how governments are using public administration to generate advantage, and publish work on the political consequences of local news decline in the United States. One further research branch I want to take on is extending current studies to more rural settings in the United States.
+
+## Planning
+
+- I am evaluating the possibility of a new index measure for social conservatism. This project will likely lead to the creation of accompanying R and Stata packages. I intend to carry out this work mostly out in the open. While the project will initially start with the United States, I will look into a comparative expansion. 
+- I am preparing for eventual grant applications that will enable original data collection at the county level in the Southern United States.
+
+## Outside work
+
+I will move to Jonesboro, AR for my new position. I am focused on visiting parts of Arkansas that I did not have a chance to visit in my previous stay in Arkansas. I have further road trip plans. I am actively trying to increase the number of books I read for fun. My other hobbies are cars and archaeology. I am currently a member of the [Archaeological Conservancy](https://www.thearchcons.org), and want to be involved more in the future. I am single.  
+
+
+:::

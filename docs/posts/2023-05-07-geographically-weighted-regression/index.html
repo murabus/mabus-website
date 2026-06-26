@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2023-05-07">
+
+<title>Geographically-Weighted Regression (with Stata) – Murat Abus</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../favicon.ico" rel="icon">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-bf56ccfbb1052dca5fbc7e05cf83d6cb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-48d3fb476c6e82fcc13f1dbb125a02fe.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-bf56ccfbb1052dca5fbc7e05cf83d6cb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+</head>
+
+<body class="nav-fixed fullcontent quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Murat Abus</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../research.html"> 
+<span class="menu-text">Research</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../teaching.html"> 
+<span class="menu-text">Teaching</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../posts/index.html"> 
+<span class="menu-text">Posts</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../data.html"> 
+<span class="menu-text">Data</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../uploads/cv-abus.pdf"> 
+<span class="menu-text">CV</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Geographically-Weighted Regression (with Stata)</h1>
+<p class="subtitle lead">Despite the potential gains in interpretation from Geographically-Weighted Regression, this method is rarely used by political scientists. The theory behind the method and the application and interpretation with Stata are straightforward. It is also a valuable tool for exploratory analysis as part of spatial work.</p>
+  <div class="quarto-categories">
+    <div class="quarto-category">Methods</div>
+    <div class="quarto-category">Stata</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">May 7, 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>We now know that the answer to Sir Francis Galton’s problem<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> lies in spatial autocorrelation occurring through two main processes: There might be a spillover in outcomes or there might be clustering on attributes<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. We also know that we can utilize global and local measures of spatial autocorrelation to test for dependence in the data as a whole and determining the particular units which are correlated with their neighbors. However, the dependence shown by these measures may not be reflecting true spatial dependence, but another type of spatial effect called spatial heterogeneity<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p>
+<p>The importance of spatial heterogeneity stems from a fundamental shift in how we approach modeling: When we determine the presence of univariate spatial dependence, we run a nonspatial model with covariates to see if the spatial dependence is accounted for. If it is not, we use a spatial model based on the results of robust Lagrange multiplier tests. However, if this dependence is instead spatial heterogeneity, that is it stems from a heterogeneity in the effects of substantive covariates<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>, then we do not need to estimate a spatial model, but instead estimate a geographically weighted regression (GWR from this point on).</p>
+<p>Before we proceed further, we need to define spatial heterogeneity as it is central to GWR. Darmofal (2015)<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> explains the intuition behind how spatial heterogeneity in parameters can cause univariate spatial autocorrelation: If a covariate differs in its effects across units of analysis and if the effects are similar in neighboring units, this may generate similar values on the dependent variable. For instance, Darmofal (2015) gives the example of an analysis that gives positive local spatial autocorrelation in violent crime rates. This might be generated by the substantive covariates (unemployment rate, educational attainment level) having stronger relationship to crime in neighboring locations and weaker relationship in other locations.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> In a sense, this is similar to nonstationarity. Because of the fluctuation in the relationship between the dependent variable and covariates over space, the spatial heterogeneity can be thought of as “relationship nonstationarity”.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
+<p>The heterogeneity can be modeled in a number of ways based on whether it is discrete or continuous. For the former case, there are spatial random coefficients and spatial switching regressions models. For the latter case, there are spatially varying coefficients models like spatial expansion models and GWR.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></p>
+<p>GWR was first proposed in 1996.<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a> The authors develop GWR as a way of coping with spatial nonstationarity. They argue that when a global model can not explain the relationships between variables, the model has to be modified to take into account the variations across the space of study. The intuition behind this need is straightforward: The parameter estimates we get from a spatial analysis may not necessarily be constant across space.<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a> Spatially-varying parameters are important to capture because they may either point to nonstationarity or misspecification of the model.</p>
+<p>Based on their previous study on possible geographical variations<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a> in estimates and the fact that sometimes this variation can be complex enough to invalidate “simple trend-fitting exercises”<a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a>, they use the original notation for their exposition of a simple linear regression:</p>
+<p><img src="1.png" class="img-fluid"></p>
+<p>where x<sub>ik</sub> is the <em>i</em> th observation of the <em>k</em> th independent variable and we have the i.i.d. error term. The estimates from a model as in the above equation are assumed to be universal. An example of the relationship between population density and elevation in part of Northeast Scotland is provided in Figure 1.<a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a> GWR is introduced as a formal way to handle this type of complex spatial variations in parameter estimates.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="image1.png" class="img-fluid figure-img"></p>
+<figcaption>Figure 1</figcaption>
+</figure>
+</div>
+<p>GWR is a technique that extends the traditional regression of the first equation by allowing local rates of variation and having coefficients that are not global but specific to a location:<a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a></p>
+<p><img src="2.png" class="img-fluid"></p>
+<p>In the above (second) equation, a<sub>ik</sub> is the values of the <em>k</em> th parameter at location <em>i</em>.</p>
+<p>Based on the model developed in previous studies<a href="#fn15" class="footnote-ref" id="fnref15" role="doc-noteref"><sup>15</sup></a>, the GWR model was specified more recently by Darmofal (2015):</p>
+<p><img src="3.png" class="img-fluid"></p>
+<p>To reiterate the main intuition behind GWR, an OLS as in the first equation gives equal weight to the parameters. In a GWR, proximity to unit <em>i</em> is used to weight the effect of observations on the varying parameters.<a href="#fn16" class="footnote-ref" id="fnref16" role="doc-noteref"><sup>16</sup></a> In the third equation, <em>u<sub>i</sub>, v<sub>i</sub></em> are the coordinates of the <em>i</em> th point in space and we have a value of the function. Then parameter estimates are sampled at particular locations and a common choice is the <em>x,y</em> centroids of the areal objects.<a href="#fn17" class="footnote-ref" id="fnref17" role="doc-noteref"><sup>17</sup></a></p>
+<p>Locations near unit <em>i</em> are given a greater weight in influencing the parameter through a spatial weights matrix. Specifying <em>w<sub>ij</sub></em> (weighting function) as a function of <em>d<sub>ij</sub></em> (distance between <em>i</em> and <em>j</em>) will protect against sudden changes that might happen when a particular sample point enters and exits estimation.<a href="#fn18" class="footnote-ref" id="fnref18" role="doc-noteref"><sup>18</sup></a> Normally, a Gaussian function is used taking the form:</p>
+<p><img src="4.png" class="img-fluid"></p>
+<p>where <em>b</em> is the bandwidth reflecting the distance-decay of the weighting function. Work on further development of GWR continues with issues regarding whether relationships between the outcome and predictor variables operate at the same spatial scale<a href="#fn19" class="footnote-ref" id="fnref19" role="doc-noteref"><sup>19</sup></a> and whether GWR is susceptible to the effects of multicollinearity between explanatory variables.<a href="#fn20" class="footnote-ref" id="fnref20" role="doc-noteref"><sup>20</sup></a> There have also been suggestions of a test on how to identify different predictor variables based on whether their effect on outcome is global or local.<a href="#fn21" class="footnote-ref" id="fnref21" role="doc-noteref"><sup>21</sup></a></p>
+<section id="gwr-in-applied-research" class="level3">
+<h3 class="anchored" data-anchor-id="gwr-in-applied-research">GWR in Applied Research</h3>
+<p>A library database search shows that even though geographically weighted regression technique is extensively used, there is relatively low utilization for political science problems. The following is a representative survey of the questions political scientists have tackled using this technique.</p>
+<p>Darmofal (2006)<a href="#fn22" class="footnote-ref" id="fnref22" role="doc-noteref"><sup>22</sup></a> compares two prevalent theories (political account and cultural thesis) on turnout in the United States. He examines the political geography by using a LISA statistic and exposes the spatial structuring of macro turnout. He determines regions of high and low turnout and argues that the analysis points to the need to look at local political factors that produced these clusters.</p>
+<p>Cahill (2007)<a href="#fn23" class="footnote-ref" id="fnref23" role="doc-noteref"><sup>23</sup></a> study spatial patterns of both crime and its covariates in Portland, Oregon by contrasting results from a global ordinary least squares model and a GWR model. They find several structural measures that have a relationship with crime and show significant local variation. They point to the utility of GWR as an exploratory framework and argue that from a policy standpoint, this framework can be used to test the success of interventions.</p>
+<p>Darmofal (2008)<a href="#fn24" class="footnote-ref" id="fnref24" role="doc-noteref"><sup>24</sup></a> employs GWR to study the political geography during one of the main electoral alignments (1928–1936 Democratic realignment). He demonstrates that contrary to the common conceptions of this realignment, the increasing support for the Democrats was not limited to urban areas but they enjoyed increases in largely rural Western locations. GWR helped show that the great variation in change in voter support at the local and subnational level was affected by subnational variation in political and demographic factors.</p>
+<p>Cho (2010)<a href="#fn25" class="footnote-ref" id="fnref25" role="doc-noteref"><sup>25</sup></a> study volunteering and donating to a major statewide election campaign. They find that these sorts of political participation are related to the socioeconomic characteristics of the precincts where citizens live, but they are spatially nonstationary. By using GWR, they are able to show the heterogeneity of contextual processes that generate the uneven flow of volunteers and donors into a political campaign.</p>
+<p>Brass (2020)<a href="#fn26" class="footnote-ref" id="fnref26" role="doc-noteref"><sup>26</sup></a> study public good provision in the African context of Ghana. Considering the conflict between national-level civil servants and local bureaucrats, they uncover that the distribution of solar panels also included places with inconsistent voter turnout. The provision of solar panels to these localities was to probably motivate voter turnout. The authors find that although such relationships were seen across the subnational space, their effects varied and were strongest in districts adjacent to Lake Volta. This disaggregation through GWR helped authors contribute to theories of distributive politics and voting behavior.</p>
+</section>
+<section id="software-for-gwr" class="level3">
+<h3 class="anchored" data-anchor-id="software-for-gwr">Software for GWR</h3>
+<p>The function <strong>gwr</strong> was published in the <a href="https://www.stata.com/products/stb/journals/stb46.pdf">Stata Technical Bulletin</a> in 1998 to enable GWR analysis with <strong>Stata</strong>. Since then, there has not been improvement of the function and there has not been significant utilization by Stata users. The implementation follows the logic developed by Brunsdon (1996) and calculates global model together with GWR and provides a way of testing for spatial nonstationarity using Monte Carlo simulation built into the function.</p>
+<p>The basic syntax is:</p>
+<pre><code>gwr depvar [varlist] [if exp] [in range], east(varname) north(varname) [options]
+
+gwrgrid depvar [varlist] [if exp] [in range], east(varname) north(varname) square(#) [options]</code></pre>
+<p><strong>gwr</strong> fits regressions at each point at which there is an observation.</p>
+<p><strong>gwrgrid</strong> puts a grid over the observed data, and fits regressions at each centroid of each grid square.</p>
+<p>As usual, with the following command, we can see all the syntax options available to the function:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">help</span> gwr</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The author of the command (Mark S. Pearce) has further information on his <a href="https://www.staff.ncl.ac.uk/m.s.pearce/stbgwr.htm">website</a>.</p>
+<p>There are options to set the iterations for calibrating the bandwidth, to test the significance of the bandwidth (checking whether the <strong>gwr</strong> model fits the data better than a global model), to save the results if they are to be mapped and the number of Monte Carlo simulations to be performed, among others.</p>
+</section>
+<section id="the-case-for-gwr" class="level3">
+<h3 class="anchored" data-anchor-id="the-case-for-gwr">The Case for GWR</h3>
+<p>The realization that virtually all social science data has spatial dependence was an important motivation on subsequent work on methodological developments and expanding applications using spatial econometrics. The discussion on GWR shows that when we move from non-spatial analysis to spatial analysis, we might be losing important nuance in the variation of the effects of covariates. These take the form of spatial clusters and point to spatial nonstationarity. When we estimate a spatial model assuming spatial stationarity, we will be missing local variation and how covariates differ in their effects in generating these effects. Usually, these insights will provide theoretical advances through a deeper explanation of the variation in the outcome including how it happens.</p>
+<p>Cho (2010) states the importance of GWR more forcefully: “Since spatial nonstationarity may well be a rule rather than an exception in the study of many political phenomena, social scientific analyses should be mindful that relationships may vary by location.” Darmofal (2015) also has a similar recommendation: “It is important to examine the possibility of such spatial heterogeneity rather than assuming that global parameters accurately reflect effects across the observed data.” Brass (2020) points to “the need for subnational disaggregation across space.”</p>
+<p>Overall, I think we have a strong case for the value of GWR as an exploratory tool. As we need geo-referenced data to estimate a GWR model, it might be a best practice to use GWR to see if we need to estimate a spatial model to account for any spatial dependence. As the inferences will be different when we estimate a global model when we do not need one, political science researchers should make effective use of GWR as an exploratory tool. The insights might generate new theoretical advances and ultimately new research agendas to increase our understanding of political phenomena.</p>
+</section>
+<section id="an-applied-example-with-stata" class="level3">
+<h3 class="anchored" data-anchor-id="an-applied-example-with-stata">An Applied Example (with Stata)</h3>
+<p>For this analysis, we will use the same files as in <a href="../../posts/2022-06-24-practical-introduction-to-mapping-with-stata/">Practical Introduction to Mapping with Stata</a>. These data are from <a href="https://doi.org/10.1080/13629395.2023.2194154">my published article</a>, where I used Spatial Error Models to analyze the vote shares of IYI and HDP in the 2018 Turkish parliamentary election. There might be spatial heterogeneity in the effects of some substantive covariates that can enable improvements in theory and analysis. Now that our dataset is ready with the coordinates of units of analysis in place (973 districts), we can proceed with an exploratory GWR analysis.<a href="#fn27" class="footnote-ref" id="fnref27" role="doc-noteref"><sup>27</sup></a></p>
+<p>Here is the Stata command for the main analysis we will discuss:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>gwr IYI educgengap, east(_CX) north(_CY) reps(50) dots <span class="kw">test</span> <span class="kw">saving</span>(eb_gwr) <span class="co">///</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">outfile</span>(eb_gwr) mcsave(mc_eb)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>In the syntax above, we have one independent variable (theoretically the most significant covariate — educgengap, educational gender gap), we set the coordinates of the units of analysis (here the 973 districts in Turkey), we specify the number of Monte Carlo simulations to be performed using the <strong>reps</strong> option (setting it to 50 for computational efficiency). <strong>Dots</strong> option shows the progression of Monte Carlo simulation by printing dots, <strong>test</strong> option is used for testing the significance of the bandwidth. <strong>Saving</strong> option specifies the name of the file (Stata file) that contains the parameter estimates and grid reference for each point where the regression is carried out. <strong>Outfile</strong> option creates a textfile with .raw extension that contains the parameter estimates for each point at which gwr is calculated. <strong>mcsave</strong> option is used to save the results of the Monte Carlo simulation as a Stata file.</p>
+<p>We will see the following output in Stata when the Monte Carlo simulation is running:</p>
+<p><img src="gwr1.png" class="img-fluid"></p>
+<p>The significance test output looks like:</p>
+<p><img src="gwr2.png" class="img-fluid"></p>
+<p>The author of the command (Mark Pearce) states that this command is designed to test two hypotheses: 1. “Does GWR model describe the data significantly better than a global model?” 2. “Does the set of parameter estimates exhibit significant spatial variation? This compares the standard deviations of the observed parameter estimates with those from the Monte Carlo simulation.”</p>
+<p>The interpretation of the results of this exploratory analysis are as follows:</p>
+<ol type="1">
+<li>The global model shows (as expected) that educational gender gap has a significant negative relationship with IYI Party vote share. The test of the bandwidth suggests that GWR is a significantly better model for this data than global linear regression.</li>
+<li>The significance test for nonstationarity of the parameter estimate shows that the relationship between IYI Party vote share and educational gender gap varies significantly over the entire study area.</li>
+</ol>
+<p>We can then map the estimates in the <strong>eb_gwr.dta</strong> output file which can suggest further influences in spatial nonstationarity. This will potentially open up further areas for investigation and help develop theories.</p>
+<p>We use the usual Stata code to merge the parameter estimates to the spatial dataset to map them:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="st">"eb_gwr"</span>, <span class="kw">clear</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">rename</span> educgengap parest</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> id = <span class="dt">_n</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="kw">save</span> <span class="st">"eb_gwr"</span>, <span class="kw">replace</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="st">"spatial_abus_incongruity_dataset"</span>, <span class="kw">clear</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="kw">merge</span> 1:1 id <span class="kw">using</span> <span class="st">"eb_gwr.dta"</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="kw">drop</span> <span class="dt">_merge</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="kw">save</span> <span class="st">"spatial_abus_incongruity_dataset"</span>, <span class="kw">replace</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Now that we merged the parameter estimates from GWR to our spatial dataset, we can map them:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>grmap parest, fcolor(Reds2) clmethod(custom) clnumber(10) clbreaks(-13 -11 -9 -7 -5 -3 0 5) legcount</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Here is the result:</p>
+<p><img src="image2.png" class="img-fluid"></p>
+<p>What does this mean? We clearly have some locations where the relationship between educational gender gap and IYI vote share is stronger. The distribution of these locations can suggest further avenues of inquiry to determine the reasons. It also informs theory building practice. I think this is a good illustration of GWR as an exploratory tool.</p>
+<p>Thanks for reading!<a href="#fn28" class="footnote-ref" id="fnref28" role="doc-noteref"><sup>28</sup></a></p>
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Tylor, Edward B. 1888. “On a Method of Investigating the Development of Institutions; Applied to Laws of Marriage and Descent.” <em>The Journal of the Anthropological Institute of Great Britain and Ireland</em> 18: 245–272. Galton’s original problem and comment can be seen on p.270.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Ward, Michael D. and Kristian Skrede Gleditsch. 2018. <em>Spatial Regression Models.</em> Vol.155 Sage Publications.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Darmofal, David. 2015. <em>Spatial Analysis for the Social Sciences.</em> Cambridge University Press, p.43.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Darmofal 2015, p.63.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>Darmofal 2015, p.119.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>Darmofal 2015, p.63.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>Harris, Paul, A. S. Fotheringham, R. Crespo and Martin Charlton. 2010. “The Use of Geographically Weighted Regression for Spatial Prediction: An Evaluation of Models Using Simulated Data Sets.” <em>Mathematical Geosciences</em> 42(6): 657–680, p.658.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p>Darmofal 2015, p.119.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p>Brunsdon, Chris, A. Stewart Fotheringham and Martin E. Charlton. 1996. “Geographically Weighted Regression: A Method for Exploring Spatial Nonstationarity.” <em>Geographical Analysis</em> 28(4): 281–298.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10"><p>Brunsdon, Fotheringham and Charlton 1996, p.281.<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn11"><p>Fotheringham, A. Stewart, Martin Charlton and Chris Brunsdon. 1996. “The Geography of Parameter Space: An Investigation of Spatial Non-Stationarity.” <em>International Journal of Geographical Information Systems</em> 10(5): 605–627.<a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn12"><p>Brunsdon, Fotheringham and Charlton 1996.<a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn13"><p>Fotheringham, Charlton and Brunsdon 1996, p.611.<a href="#fnref13" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn14"><p>Brunsdon, Fotheringham and Charlton 1996, p.284.<a href="#fnref14" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn15"><p>Brunsdon, Fotheringham and Charlton 1996. Also: Fotheringham, A. Stewart, Martin E. Charlton and Chris Brunsdon. 1998. “Geographically Weighted Regression: A Natural Evolution of the Expansion Method for Spatial Data Analysis.” <em>Environment and Planning</em> 30(11): 1905–1927.<a href="#fnref15" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn16"><p>Darmofal 2015, 131. Fotheringham, Charlton and Brunsdon 1998, p.1908.<a href="#fnref16" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn17"><p>Darmofal 2015, 132.<a href="#fnref17" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn18"><p>Brunsdon, Fotheringham and Charlton 1996, p.286.<a href="#fnref18" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn19"><p>Comber, Alexis, Christopher Brunsdon, Martin Charlton, Huanpeng Dong, Richard Harris, Binbin Lu, Yihe Lu, Daisuke Murakami, Tomoki Nakaya, Yunqiang Wang. 2022. “A Route Map for Successful Applications of Geographically Weighted Regression.”<a href="#fnref19" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn20"><p>Fotheringham, A. Stewart and Taylor M. Oshan. 2006. “Geographically Weighted Regression and Multicollinearity: Dispelling the Myth.” <em>Journal of Geographical Systems</em> 18(4): 303–329.<a href="#fnref20" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn21"><p>Mei, Chang-Lin, Shu-Yuan He and Kai-Tai Fang. 2004. “A Note on the Mixed Geographically Weighted Regression Model.” <em>Journal of Regional Science</em> 44(1): 143–157.<a href="#fnref21" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn22"><p>Darmofal, David. 2006. “The Political Geography of Macro-Level Turnout in American Political Development.” <em>Political Geography</em> 25(2):123–150.<a href="#fnref22" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn23"><p>Cahill, Meagan and Gordon Mulligan. 2007. “Using Geographically Weighted Regression to Explore Local Crime Patterns.” <em>Social Science Computer Review</em> 25(2):174–193.<a href="#fnref23" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn24"><p>Darmofal, David. 2008. “The Political Geography of the New Deal Realignment.” <em>American Politics Research</em> 36(6):934–961.<a href="#fnref24" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn25"><p>Cho, Wendy K. Tam and James G. Gimpel. 2010. “Rough Terrain: Spatial Variation in Campaign Contributing and Volunteerism.” <em>American Journal of Political Science</em> 54(1):74–89.<a href="#fnref25" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn26"><p>Brass, Jennifer N., Justin Schon, Elizabeth Baldwin and Lauren M. MacLean. 2020. “Spatial Analysis of Bureaucrats’ Attempts to Resist Political Capture in a Developing Democracy: The Distribution of Solar Panels in Ghana.” <em>Political Geography</em> 76.<a href="#fnref26" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn27"><p>The reader is reminded that we will use the dataset we created in my post on <a href="../../posts/2022-06-24-practical-introduction-to-mapping-with-stata/">Practical Mapping with Stata</a>.<a href="#fnref27" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn28"><p>The analysis and screenshots were done on a Lenovo ThinkPad E570 running Ubuntu 22.04.2 LTS and GNOME 42.5. Stata IC 16.1 was used in the analysis.<a href="#fnref28" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script>
+(function() {
+  // Quarto renders <i class="bi"></i> for the toggle with no icon class.
+  // We add bi-moon-fill (light mode) or bi-sun-fill (dark mode).
+  function setToggleIcon() {
+    var icon = document.querySelector('.quarto-color-scheme-toggle i.bi');
+    if (!icon) return;
+    var isDark = document.documentElement.classList.contains('quarto-dark') ||
+                 document.body.classList.contains('quarto-dark') ||
+                 document.documentElement.getAttribute('data-bs-theme') === 'dark';
+    icon.className = isDark ? 'bi bi-sun-fill' : 'bi bi-moon-fill';
+  }
+
+  // Run on load
+  document.addEventListener('DOMContentLoaded', setToggleIcon);
+
+  // Run after toggle click
+  document.addEventListener('click', function(e) {
+    if (e.target.closest('.quarto-color-scheme-toggle')) {
+      setTimeout(setToggleIcon, 50);
+    }
+  });
+})();
+</script>
+<script>
+(function() {
+  function fixNavbarFont() {
+    var navbars = document.querySelectorAll('.navbar');
+    for (var i = 0; i < navbars.length; i++) {
+      navbars[i].style.setProperty('font-size', '1.125rem', 'important');
+    }
+  }
+  fixNavbarFont();
+  window.addEventListener('load', fixNavbarFont);
+  document.addEventListener('click', function(e) {
+    if (e.target.closest('.quarto-color-scheme-toggle')) {
+      setTimeout(fixNavbarFont, 100);
+    }
+  });
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/muratabus\.com");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<div class="site-footer">
+<div class="footer-grid">
+<div class="footer-col footer-col-about">
+<p><strong>Murat Abus</strong> <br>Post-Doctoral Fellow in Political Science <br>Government, Law &amp; Policy <br>Arkansas State University</p>
+</div>
+<section id="site" class="level4 footer-col">
+<h4 data-anchor-id="site">Site</h4>
+<ul>
+<li><a href="research.html">Research</a></li>
+<li><a href="data.html">Data</a></li>
+<li><a href="teaching.html">Teaching</a></li>
+<li><a href="posts/index.html">Posts</a></li>
+<li><a href="uploads/cv-abus.pdf">CV</a></li>
+<li><a href="now.html">Now</a></li>
+</ul>
+</section>
+<section id="connect" class="level4 footer-col">
+<h4 data-anchor-id="connect">Connect</h4>
+<ul>
+<li><a href="mailto:muabus@syr.edu">Email</a></li>
+<li><a href="https://github.com/murabus">GitHub</a></li>
+<li><a href="https://scholar.google.com/citations?user=U80XvUEAAAAJ&amp;hl=en&amp;oi=ao">Google Scholar</a></li>
+<li><a href="https://orcid.org/0000-0002-0153-5010">ORCID</a></li>
+<li><a href="https://twitter.com/muratabus">X / Twitter</a></li>
+<li><a href="https://www.researchgate.net/profile/Murat-Abus">ResearchGate</a></li>
+</ul>
+</section>
+<section id="also" class="level4 footer-col">
+<h4 data-anchor-id="also">Also</h4>
+<ul>
+<li><a href="https://www.astate.edu">Arkansas State University</a></li>
+<li><a href="https://www.astate.edu/research/institute-for-rural-initiatives.html">Institute for Rural Initiatives</a></li>
+<li><a href="https://idjc.syracuse.edu/">Institute for Democracy, Journalism and Citizenship</a></li>
+</ul>
+</section>
+</div>
+</div>
+<div class="footer-bottom">
+<p><span>© 2026 Murat Abus · Made with <a href="https://www.r-project.org">R</a> and <a href="https://quarto.org">Quarto</a></span></p>
+</div>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

@@ -1,0 +1,51 @@
+---
+title: "Typst Appendix Template"
+date: "2026-06-26"
+categories: [Quarto, Typst, Academic]
+format:
+  html: default
+from: markdown+emoji
+typst:
+  output-file: "typst-appendix-template.pdf"
+subtitle: "In line with the increasing adoption of Typst across academia and efforts to provide templates to produce the beautiful typeset documents we have been getting with LaTeX, I am presenting a ready to use template for appendices."
+image: featured.png
+---
+  
+As I transition to Typst and Quarto from a LaTeX-based workflow, I realized the need for an appendix template that will provide the beautiful formatted appendices I prepare in almost all research I am involved in. I started using my co-author [Cameron Wimpy's Typst template for academic articles](https://github.com/cwimpy/typst-templates/tree/main/working-paper). I highly recommend this template which has a well-thought out combination of font styles. The real-time updating of word count as well as the freedom to use any kind of fonts without changing compilation engine and the fast compilation times make Typst a compelling choice. In order to provide a full solution, I am presenting an appendix template that takes its style cues from the article template mentioned above. 
+
+## What Will It Do?
+This template will mirror a LaTeX appendix layout with a title page, table of contents with dolt leaders, appendix-lettered sections (A, A.1,...), double-spaced body text, and booktabs-style tables. 
+
+## What Does It Include?
+
+The Typst appendix template is composed of the following files:
+
+- _extension.yml
+- typst-show.typ
+- typst-template.typ
+
+These files should be placed in a subfolder called "appendix" under folder "_extensions" in the same folder of your appendix files.
+
+## Installation
+
+```r
+git clone https://github.com/murabus/typst-appendix.git
+cd typst-appendix
+```
+After cloning the repo, you can place the files in your appendix folder and create a  beautiful typeset appendix.
+
+## Usage
+
+Include the format in your YAML.
+
+```yaml
+---
+title: "Appendix for: My Paper Title"
+format:
+  appendix-typst: default
+---
+```
+
+
+::: {.content-visible when-format="html"}
+:::

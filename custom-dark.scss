@@ -1,0 +1,43 @@
+/*-- scss:defaults --*/
+
+$body-bg: #0c110d;
+$body-color: #e2ebe3;
+$link-color: #5db87e;
+$link-hover-color: #8dd4a4;
+
+/*-- scss:rules --*/
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,300..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --accent:         #5db87e;
+  --accent-deep:    #8dd4a4;
+  --accent-bright:  #6fcf90;
+  --accent-light:   rgba(93, 184, 126, 0.12);
+  --accent-mid:     rgba(93, 184, 126, 0.20);
+  --accent-muted:   rgba(93, 184, 126, 0.05);
+  --card-bg:        #111a13;
+  --card-border:    rgba(93, 184, 126, 0.14);
+  --card-border-top: #5db87e;
+  --text-muted:     #7aaa88;
+  --text-subtle:    #527a5e;
+  --divider:        rgba(93, 184, 126, 0.12);
+  --ink:            #e2ebe3;
+  --serif-display:  "Cormorant Garamond", Georgia, serif;
+  --serif-body:     "Source Serif 4", Georgia, serif;
+  --sans:           "Inter", -apple-system, sans-serif;
+  --mono:           "JetBrains Mono", "Fira Code", monospace;
+  --page-bg:        #0c110d;
+  --shadow-sm:      0 1px 4px rgba(0,0,0,0.2), 0 2px 12px rgba(0,0,0,0.15);
+  --shadow-md:      0 4px 16px rgba(0,0,0,0.28), 0 8px 32px rgba(0,0,0,0.18);
+  --shadow-warm:    rgba(0, 0, 0, 0.30);
+  --navbar-bg:      rgba(12, 17, 13, 0.94);
+
+}
+
+@import "site-components";
+
+// Avatar — dim the white background in dark mode
+.hero-photo img {
+  filter: brightness(0.70) contrast(1.05) !important;
+}

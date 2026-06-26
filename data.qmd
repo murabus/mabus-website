@@ -1,0 +1,38 @@
+---
+title: "Data"
+subtitle: "Data on Turkish politics compiled by Murat Abus for his projects are made available here to other scholars. Please reach out if you have any questions about the data."
+---
+
+```{=html}
+<div class="page-content">
+
+<div class="data-item">
+  <div class="data-title">1. Mosque Density (Proxy for District-Level Religiosity)</div>
+  <p>
+    Number of mosques per district is available from the Directorate of Religious Affairs, however it is not possible to use this as a control without standardizing. I divided the number of mosques by the district population and generated a mosque density variable (per 10,000 people) that can be used as one more proxy for religiosity. In order to facilitate merging with existing datasets, the mosque density data have district pcodes. For a visualization of the data, see my <a href="posts/2022-06-24-practical-introduction-to-mapping-with-stata/index.qmd">mapping tutorial</a>.
+  </p>
+  <div class="data-links">
+    <a href="https://github.com/murabus/mosque_density" target="_blank">🔗 Mosque Density (GitHub)</a>
+  </div>
+</div>
+
+<div class="data-item">
+  <div class="data-title">2. Educational Gender Gap (Proxy for District-Level Social Conservatism)</div>
+  <p>
+    I calculated this variable to quantify the over-time change in the difference in educational attainment between women and men in Turkey at the district level. Based on availability of local education data, I calculated educational gender gap for the years 1985, 1990, 2000, 2008, 2011, 2015, and 2018. In one of the first applications of its kind, I validated the concept and used it as the main independent variable in my article about the vote shift in the 2018 parliamentary election in Turkey.<sup>1</sup>
+  </p>
+  <p>
+    The variable ranges from a theoretical −1 to 1. An increase in the variable denotes a worsening situation for women in overall educational attainment. Negative values show higher women educational attainment levels compared to men; positive values denote the opposite. The district-level data have pcodes for districts for easier merging with existing datasets.
+  </p>
+  <div class="data-links">
+    <a href="https://github.com/murabus/Educational_Gender_Gap" target="_blank">🔗 Educational Gender Gap — Districts (GitHub)</a>
+    <a href="https://github.com/murabus/Educational_Gender_Gap" target="_blank">🔗 Educational Gender Gap — Regions/NUTS-1 (GitHub)</a>
+  </div>
+</div>
+
+---
+
+<small><sup>1</sup> Abus, Murat. 2024. "A Theory of Gender's Effect on Vote Shift with a Test Based on Turkish Elections." *Mediterranean Politics* 29(5): 729–754.</small>
+
+</div>
+```

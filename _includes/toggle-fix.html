@@ -1,0 +1,24 @@
+<script>
+(function() {
+  // Quarto renders <i class="bi"></i> for the toggle with no icon class.
+  // We add bi-moon-fill (light mode) or bi-sun-fill (dark mode).
+  function setToggleIcon() {
+    var icon = document.querySelector('.quarto-color-scheme-toggle i.bi');
+    if (!icon) return;
+    var isDark = document.documentElement.classList.contains('quarto-dark') ||
+                 document.body.classList.contains('quarto-dark') ||
+                 document.documentElement.getAttribute('data-bs-theme') === 'dark';
+    icon.className = isDark ? 'bi bi-sun-fill' : 'bi bi-moon-fill';
+  }
+
+  // Run on load
+  document.addEventListener('DOMContentLoaded', setToggleIcon);
+
+  // Run after toggle click
+  document.addEventListener('click', function(e) {
+    if (e.target.closest('.quarto-color-scheme-toggle')) {
+      setTimeout(setToggleIcon, 50);
+    }
+  });
+})();
+</script>

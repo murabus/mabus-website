@@ -1,0 +1,10 @@
+---
+title: "Posts"
+subtitle: "Here are some posts about my ideas on life, academia, and research."
+listing:
+  contents: "*/index.qmd"
+  sort: "date desc"
+  type: default
+  categories: true
+  fields: [date, title, subtitle, categories, image, reading-time]
+---

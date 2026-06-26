@@ -1,0 +1,38 @@
+/*-- scss:defaults --*/
+
+$body-bg: #f5f8f5;
+$body-color: #141c14;
+$link-color: #1e5c35;
+$link-hover-color: #0f3320;
+
+/*-- scss:rules --*/
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,300..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --accent:         #1e5c35;
+  --accent-deep:    #0f3320;
+  --accent-bright:  #2d8a52;
+  --accent-light:   rgba(30, 92, 53, 0.07);
+  --accent-mid:     rgba(30, 92, 53, 0.16);
+  --accent-muted:   rgba(30, 92, 53, 0.04);
+  --card-bg:        #ffffff;
+  --card-border:    rgba(30, 92, 53, 0.11);
+  --card-border-top: #1e5c35;
+  --text-muted:     #4a7a5a;
+  --text-subtle:    #7a9a82;
+  --divider:        rgba(30, 92, 53, 0.10);
+  --ink:            #141c14;
+  --serif-display:  "Cormorant Garamond", Georgia, serif;
+  --serif-body:     "Source Serif 4", Georgia, serif;
+  --sans:           "Inter", -apple-system, sans-serif;
+  --mono:           "JetBrains Mono", "Fira Code", monospace;
+  --page-bg:        #f5f8f5;
+  --shadow-sm:      0 1px 4px rgba(20, 40, 25, 0.06), 0 2px 12px rgba(20, 40, 25, 0.04);
+  --shadow-md:      0 4px 16px rgba(20, 40, 25, 0.09), 0 8px 32px rgba(20, 40, 25, 0.05);
+  --shadow-warm:    rgba(30, 92, 53, 0.10);
+  --navbar-bg:      rgba(252, 254, 252, 0.96);
+
+}
+
+@import "site-components";

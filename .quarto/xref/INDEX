@@ -1,0 +1,38 @@
+{
+  "teaching.qmd": {
+    "teaching.html": "d5728474"
+  },
+  "research.qmd": {
+    "research.html": "bf97323e"
+  },
+  "posts/2023-05-07-geographically-weighted-regression/index.qmd": {
+    "index.html": "3fddcf2b"
+  },
+  "posts/2023-06-17-bivariate-map-bimap-with-stata/index.qmd": {
+    "index.html": "d89e9292"
+  },
+  "posts/index.qmd": {
+    "index.html": "2e4c299b"
+  },
+  "posts/2022-06-24-practical-introduction-to-mapping-with-stata/index.qmd": {
+    "index.html": "a9a12919"
+  },
+  "posts/2022-12-23-ehh-command-line-tool/index.qmd": {
+    "index.html": "45b90ca7"
+  },
+  "index.qmd": {
+    "index.html": "ba4dcf8f"
+  },
+  "data.qmd": {
+    "data.html": "3c04e1ef"
+  },
+  "posts/On Reading Part 1/index.qmd": {
+    "index.html": "f1d516f6"
+  },
+  "now.qmd": {
+    "now.html": "e35a7ae1"
+  },
+  "posts/Typst Appendix Template/index.qmd": {
+    "index.html": "cdca355b"
+  }
+}

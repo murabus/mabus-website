@@ -1,0 +1,17 @@
+<script>
+(function() {
+  function fixNavbarFont() {
+    var navbars = document.querySelectorAll('.navbar');
+    for (var i = 0; i < navbars.length; i++) {
+      navbars[i].style.setProperty('font-size', '1.125rem', 'important');
+    }
+  }
+  fixNavbarFont();
+  window.addEventListener('load', fixNavbarFont);
+  document.addEventListener('click', function(e) {
+    if (e.target.closest('.quarto-color-scheme-toggle')) {
+      setTimeout(fixNavbarFont, 100);
+    }
+  });
+})();
+</script>

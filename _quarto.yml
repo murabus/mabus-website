@@ -1,0 +1,87 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Murat Abus"
+  description: "Post-Doctoral Fellow in Political Science at Arkansas State University"
+  site-url: "https://muratabus.com"
+  favicon: favicon.ico
+
+  search:
+    location: navbar
+    type: overlay
+
+  navbar:
+    pinned: true
+    right:
+      - text: "Research"
+        href: research.qmd
+      - text: "Teaching"
+        href: teaching.qmd
+      - text: "Posts"
+        href: posts/index.qmd
+      - text: "Data"
+        href: data.qmd
+      - text: "CV"
+        href: uploads/cv-abus.pdf
+
+  page-footer:
+    border: false
+    left: |
+      ::: {.site-footer}
+      :::: {.footer-grid}
+
+      ::: {.footer-col .footer-col-about}
+      **Murat Abus**
+      <br>Post-Doctoral Fellow in Political Science
+      <br>Government, Law & Policy
+      <br>Arkansas State University
+      :::
+
+      ::: {.footer-col}
+      #### Site
+      - [Research](research.html)
+      - [Data](data.html)
+      - [Teaching](teaching.html)
+      - [Posts](posts/index.html)
+      - [CV](uploads/cv-abus.pdf)
+      - [Now](now.html)
+      :::
+
+      ::: {.footer-col}
+      #### Connect
+      - [Email](mailto:muabus@syr.edu)
+      - [GitHub](https://github.com/murabus)
+      - [Google Scholar](https://scholar.google.com/citations?user=U80XvUEAAAAJ&hl=en&oi=ao)
+      - [ORCID](https://orcid.org/0000-0002-0153-5010)
+      - [X / Twitter](https://twitter.com/muratabus)
+      - [ResearchGate](https://www.researchgate.net/profile/Murat-Abus)
+      :::
+
+      ::: {.footer-col}
+      #### Also
+      - [Arkansas State University](https://www.astate.edu)
+      - [Institute for Rural Initiatives](https://www.astate.edu/research/institute-for-rural-initiatives.html)
+      - [Institute for Democracy, Journalism and Citizenship](https://idjc.syracuse.edu/)
+      :::
+
+      ::::
+      :::
+
+      ::: {.footer-bottom}
+      <span>© 2026 Murat Abus · Made with [R](https://www.r-project.org) and [Quarto](https://quarto.org)</span>
+      :::
+
+format:
+  html:
+    theme:
+      light: [journal, styles.scss]
+      dark:  [journal, custom-dark.scss]
+    toc: false
+    link-external-icon: false
+    link-external-newwindow: false
+    smooth-scroll: true
+    include-after-body:
+      - _includes/toggle-fix.html
+      - _includes/navbar-font-fix.html

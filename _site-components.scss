@@ -240,9 +240,9 @@ main p a,
 
   @media (max-width: 640px) {
     grid-template-columns: 1fr;
-    padding: 3rem 0 2rem;
+    padding: 2rem 1rem 1.5rem;
     text-align: center;
-    gap: 2rem;
+    gap: 1.5rem;
   }
 }
 
@@ -271,6 +271,11 @@ main p a,
         0 28px 64px rgba(20, 40, 25, 0.14);
       transform: translateY(-4px) scale(1.01);
     }
+
+    @media (max-width: 640px) {
+      width: 180px;
+      height: 180px;
+    }
   }
 
 
@@ -293,6 +298,8 @@ main p a,
   letter-spacing: -0.01em !important;
   line-height: 1.05 !important;
   margin: 0 0 0.15rem !important;
+
+  @media (max-width: 640px) { font-size: 2.4rem !important; }
 }
 
 .hero-section .hero-content p.hero-role,
@@ -306,6 +313,8 @@ main p a,
   font-weight: 500 !important;
   margin: 0 0 0.5rem !important;
   opacity: 0.85;
+
+  @media (max-width: 640px) { font-size: 1.15rem !important; }
 }
 
 .hero-affiliation {
@@ -319,6 +328,12 @@ main p a,
   padding-bottom: 1.3rem !important;
   margin-bottom: 1.6rem !important;
   white-space: nowrap !important;
+
+  @media (max-width: 640px) {
+    white-space: normal !important;
+    font-size: 0.65rem !important;
+    letter-spacing: 0.07em !important;
+  }
 
   a {
     color: var(--text-subtle) !important;

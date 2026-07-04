@@ -11,10 +11,10 @@ toc: false
   </div>
   <div class="hero-content">
     <p class="hero-name">Murat Abus</p>
-    <p class="hero-role">Post-Doctoral Fellow in Political Science</p>
+    <p class="hero-role">Postdoctoral Fellow in Political Science</p>
     <p class="hero-affiliation">GOVERNMENT, LAW &amp; POLICY · ARKANSAS STATE UNIVERSITY</p>
     <p>
-      I am an incoming Post-Doctoral Fellow in Political Science at the
+      I am an incoming Postdoctoral Fellow in Political Science at the
       <a href="https://www.astate.edu/colleges/liberal-arts-and-communication/government-law-and-policy/index.html">Department of Government, Law &amp; Policy</a> at Arkansas State University. I am an affiliate researcher at the <a href="https://www.astate.edu/research/institute-for-rural-initiatives.html">Institute for Rural Initiatives</a>. I am also an affiliate researcher at the <a href="https://idjc.syracuse.edu">Institure for Democracy, Journalism and Citizenship</a>. 
     </p>
      <p>

@@ -15,7 +15,7 @@ toc: false
     <p class="hero-affiliation">GOVERNMENT, LAW &amp; POLICY · ARKANSAS STATE UNIVERSITY</p>
     <p>
       I am an incoming Postdoctoral Fellow in Political Science at the
-      <a href="https://www.astate.edu/colleges/liberal-arts-and-communication/government-law-and-policy/index.html">Department of Government, Law &amp; Policy</a> at Arkansas State University. I am an affiliate researcher at the <a href="https://www.astate.edu/research/institute-for-rural-initiatives.html">Institute for Rural Initiatives</a>. I am also an affiliate researcher at the <a href="https://idjc.syracuse.edu">Institure for Democracy, Journalism and Citizenship</a>. 
+      <a href="https://www.astate.edu/colleges/liberal-arts-and-communication/government-law-and-policy/index.html">Department of Government, Law &amp; Policy</a> at Arkansas State University. I am an affiliate researcher at the <a href="https://www.astate.edu/research/institute-for-rural-initiatives.html">Institute for Rural Initiatives</a>. I am also an affiliate researcher at the <a href="https://idjc.syracuse.edu">Institute for Democracy, Journalism and Citizenship</a>. 
     </p>
      <p>
       I am interested in election science, political behavior, public administration, political communication, public opinion, and local politics. I primarily study how decline in local news affects outcomes at the local level, how background factors affect election administration, how candidate selection processes differ across countries, how local politics and election administration interact in rural settings, and how governments use public administration to generate advantage.

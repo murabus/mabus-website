@@ -12,9 +12,9 @@ Introduction to Data Analysis · Data Visualization · Applied Data Analysis · 
 ## Fall 2026
 I am teaching three courses in Fall 2026:
 
-- **PLSC 3003** Introduction to Political Analysis (undergraduate): Syllabus and other pertinent information will be posted here in early August.
+- **PLSC 30453** Introduction to Political Analysis (undergraduate): [30453 Syllabus](https://astate.simplesyllabus.com/doc/cl7v72iuu/2026-Fall-PLSC-30453-001-INTRO-TO-POLITICAL-ANALYSIS?mode=view)
 
-- **PLSC 3203** Introduction to Comparative Politics (undergraduate): Syllabus and other pertinent information will be posted here in early August.
+- **PLSC 33203** Introduction to Comparative Politics (undergraduate): [33203 Syllabus](https://astate.simplesyllabus.com/doc/ufu7zp2qv/2026-Fall-PLSC-33203-001-INTRO-TO-COMPARATIVE-POLITICS?mode=view)
 
 - **PLSC 6013** Advanced Political Analysis (graduate): Syllabus and other pertinent information will be posted here in early August. 
 
@@ -22,6 +22,6 @@ If you are a prospective or enrolled student and want to know more in the meanti
 
 ## Office Hours
 
-- Office hours will be posted here in early August.
+- MF 14:00-16:30 HSS 3052.
 
-- For meeting outside of office hours, you may [schedule a meeting](mailto:mabus@astate.edu)
+- For meeting outside of office hours, you may [schedule a meeting](https://outlook.office.com/bookwithme/user/746d194683be4d4c81655d3028861cb4@astate.edu?anonymous&ismsaljsauthenabled&ep=pcard)

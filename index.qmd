@@ -14,7 +14,7 @@ toc: false
     <p class="hero-role">Postdoctoral Fellow in Political Science</p>
     <p class="hero-affiliation">GOVERNMENT, LAW &amp; POLICY · ARKANSAS STATE UNIVERSITY</p>
     <p>
-      I am an incoming Postdoctoral Fellow in Political Science at the
+      I am a Postdoctoral Fellow in Political Science at the
       <a href="https://www.astate.edu/colleges/liberal-arts-and-communication/government-law-and-policy/index.html">Department of Government, Law &amp; Policy</a> at Arkansas State University. I am an affiliate researcher at the <a href="https://www.astate.edu/research/institute-for-rural-initiatives.html">Institute for Rural Initiatives</a>. I am also an affiliate researcher at the <a href="https://idjc.syracuse.edu">Institute for Democracy, Journalism and Citizenship</a>. 
     </p>
      <p>

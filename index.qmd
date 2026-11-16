@@ -7,7 +7,8 @@ toc: false
 ```{=html}
 <div class="hero-section">
   <div class="hero-photo">
-    <img src="avatar.png" alt="Murat Abus" />
+    <img class="avatar-light" src="avatar.jpg" alt="Murat Abus" />
+    <img class="avatar-dark" src="avatar.png" alt="Murat Abus" />
   </div>
   <div class="hero-content">
     <p class="hero-name">Murat Abus</p>

@@ -36,3 +36,9 @@ $link-hover-color: #0f3320;
 }
 
 @import "site-components";
+
+// Avatar — light theme shows the white-background photo (avatar.jpg);
+// the dark-background photo (avatar.png) is hidden here.
+.hero-photo img.avatar-dark {
+  display: none;
+}

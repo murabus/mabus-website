@@ -37,8 +37,7 @@ $link-hover-color: #8dd4a4;
 
 @import "site-components";
 
-// Avatar — dark theme shows the dark-background photo (avatar.png);
-// the white-background photo (avatar.jpg) is hidden here.
-.hero-photo img.avatar-light {
-  display: none;
+// Avatar — dim the white background in dark mode
+.hero-photo img {
+  filter: brightness(0.70) contrast(1.05) !important;
 }
